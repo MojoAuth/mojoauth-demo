@@ -1,4 +1,4 @@
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import React from 'react'
 import './App.css';
 import MojoAuth from 'mojoauth-web-sdk'
