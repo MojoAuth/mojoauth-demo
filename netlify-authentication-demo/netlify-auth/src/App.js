@@ -20,7 +20,7 @@ mojoauth.signIn().then(response =>{
   window.close()
   // if (payload) (window as any).MAEmail=payload.user.identifier
 }); 
-},[]);
+},[params]);
   return (
     <div id='mojoauth-passwordless-form'></div>
   );
