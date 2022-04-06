@@ -1,4 +1,0 @@
-[submodule "netlify-authentication-demo/netlify-auth"] 
-  path = netlify-authentication-demo/netlify-auth
-  
-  url = git://github.com/MojoAuth/mojoauth-demo
