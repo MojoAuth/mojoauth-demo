@@ -1,4 +1,5 @@
 import logo from './logo.svg';
+import React from 'react'
 import './App.css';
 import MojoAuth from 'mojoauth-web-sdk'
 import { useLocation } from 'react-router-dom';
@@ -17,7 +18,6 @@ function App() {
 mojoauth.signIn().then(response =>{
   window.close()
   // if (payload) (window as any).MAEmail=payload.user.identifier
-  setPayload(response)
 }); 
 },[]);
   return (
