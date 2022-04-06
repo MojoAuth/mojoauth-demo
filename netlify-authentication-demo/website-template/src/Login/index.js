@@ -1,6 +1,6 @@
 import React from "react";
 import {Button} from 'semantic-ui-react'
-import MojoAuth from 'mojoauth-web-sdk'
+// import MojoAuth from 'mojoauth-web-sdk'
 import config from '../config'
 const Login = () => {
 

@@ -1,5 +1,5 @@
 import React from "react";
-import {List} from 'semantic-ui-react'
+// import {List} from 'semantic-ui-react'
 import MojoAuth from 'mojoauth-web-sdk'
 import config from '../config'
 const Profile = () => {
