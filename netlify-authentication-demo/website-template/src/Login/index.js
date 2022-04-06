@@ -2,7 +2,7 @@ import React from "react";
 import {Button} from 'semantic-ui-react'
 // import MojoAuth from 'mojoauth-web-sdk'
 import config from '../config'
-import 'semantic-ui-css/semantic.min.css'
+// import 'semantic-ui-css/semantic.min.css'
 const Login = () => {
 
     return(<>
