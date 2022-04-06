@@ -4,6 +4,7 @@ import './App.css';
 import MojoAuth from 'mojoauth-web-sdk'
 import { useLocation } from 'react-router-dom';
 import * as QueryString from 'query-string';
+import config from './config'
 function App() {
 
   const {search} = useLocation()
