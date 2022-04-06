@@ -7,7 +7,7 @@ import * as QueryString from 'query-string';
 import config from './config'
 function App() {
 
-  const {search} = useLocation()
+  const search = window.location.search
   const params = QueryString.parse(search);
   React.useEffect(()=>{
     const mojoConfig = {

@@ -3,13 +3,18 @@ import React from 'react';
 import { Route,Routes } from "react-router-dom";
 import Profile from './Profile';
 import Login from './Login';
+// import { } from "react-router-dom";
 const App = () => {
   return (
     <div className = "App">
       <React.Fragment>
         <Routes>
-          <Route path='/login' element={<Login/>}/>
+          {/* <Route path='/'>
+            <Navigate to='/login'/>
+          </Route> */}
+          <Route path='/' element={<Login/>}/>
           <Route path='/profile' element={<Profile/>}/>
+          
         </Routes>
 
       </React.Fragment>
