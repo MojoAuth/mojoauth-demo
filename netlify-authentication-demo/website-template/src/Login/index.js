@@ -6,9 +6,16 @@ import config from '../config'
 const Login = () => {
 
     return(<>
+    <div className='container'>
+        <h1>Netlify Authentication Website Template</h1>
+        <div className='login-container'>
+            <h1 className='title'>Welcome</h1>
+            <h4 className='subtitle'>Login using Netlify centered Authentication</h4>
     <a href={`https://${config.mojoauth_netlify_url}?redirect_url=${config.redirect_url}`}>
-    <Button >Login</Button></a>
-        
+    <Button primary>Login</Button></a>
+    <p className='footer'>By MojoAuth</p>
+        </div>
+        </div>
         
                 
         {/* <div>{JSON.stringify(payload, null, 2)}</div> */}
