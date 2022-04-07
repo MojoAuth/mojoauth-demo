@@ -11,7 +11,7 @@ const Login = () => {
         <div className='login-container'>
             <h1 className='title'>Welcome</h1>
             <h4 className='subtitle'>Login using Netlify centered Authentication</h4>
-    <a href={`https://${config.mojoauth_netlify_url}?redirect_url=${config.redirect_url}`}>
+    <a target='_blank' href={`https://${config.mojoauth_netlify_url}?redirect_url=${config.redirect_url}`}>
     <Button primary>Login</Button></a>
     <p className='footer'>By MojoAuth</p>
         </div>

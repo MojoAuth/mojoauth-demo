@@ -19,7 +19,7 @@ const Profile = () => {
         
         
                 
-        <div>{JSON.stringify(payload, null, 2)}</div>
+        <pre>{JSON.stringify(payload, null, 2)}</pre>
 
         </>);
 
