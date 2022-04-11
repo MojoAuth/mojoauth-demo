@@ -5,6 +5,7 @@ import MojoAuth from 'mojoauth-web-sdk'
 // import { useLocation } from 'react-router-dom';
 import * as QueryString from 'query-string';
 import config from './config'
+import {Helmet} from 'react-helmet'
 function App() {
 
   const search = window.location.search
@@ -22,7 +23,12 @@ mojoauth.signIn().then(response =>{
 }); 
 },[params]);
   return (
-    <div id='mojoauth-passwordless-form'></div>
+    <><Helmet>
+    <meta charSet='utf-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1' />
+    <title>Netlify Authentication - MojoAuth</title>
+    <meta name='theme-color' content='#000000' />
+  </Helmet><div id='mojoauth-passwordless-form'></div></>
   );
 }
 

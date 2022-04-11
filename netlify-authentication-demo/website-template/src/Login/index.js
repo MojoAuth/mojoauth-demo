@@ -7,7 +7,8 @@ const Login = () => {
 
     return(<>
     <div className='container'>
-        <h1>Netlify Authentication Website Template</h1>
+        <h1 className='main-title'>Host Central Authentication at Netlify</h1>
+        <h3 className="main-subtitle">Read the full article <a target='_blank' rel="noreferrer" href="https://mojoauth.com/blog">here</a></h3>
         <div className='login-container'>
             <h1 className='title'>Welcome</h1>
             <h4 className='subtitle'>Login using Netlify centered Authentication</h4>
