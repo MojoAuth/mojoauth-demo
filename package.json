@@ -2,5 +2,5 @@
     "name": "@monorepo-starter/root",
     "version": "1.0.0",
     "private": true,
-    "workspaces": ["netlify-authentication-demo/netlify-auth/*", "netlify-authentication-demo/website-template/*"]
+    "workspaces": ["netlify-authentication-demo/netlify-auth/*", "netlify-authentication-demo/website-template/*", "react-demo/*"]
   }
