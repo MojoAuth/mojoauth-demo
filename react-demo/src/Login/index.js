@@ -26,7 +26,7 @@ const Login = () => {
         }
 		
 			
-    },[ open])
+    },[ navigate, open])
     
     return(<>
     <div className='container'>

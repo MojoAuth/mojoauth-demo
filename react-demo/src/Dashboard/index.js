@@ -13,12 +13,15 @@ const Dashboard = (props) => {
 //   const [payload, setPayload] = useState(null);
 const navigate = useNavigate();
 const search = useLocation();
-const params = search
+  useEffect(() => {
+    
+
+    const params = search
 			? QueryString.parse(search.search)
 			:{}
-  useEffect(() => {
     if (params.state_id) {
         const mojoauth = new MojoAuth(config.api_key);
+        //react-hooks/exhaustive-deps
         mojoauth.signInWithStateID(params.state_id).then((payload) => {
             
             localStorage.setItem('React-AccessToken', payload.oauth.access_token)
@@ -26,9 +29,10 @@ const params = search
 navigate('/dashboard')
         });
     }else if(!localStorage.getItem('React-AccessToken')){
+      //react-hooks/exhaustive-deps
       navigate('/')
     }
-  }, []);
+  }, [ search,navigate]);
 
   return (
     <React.Fragment>
