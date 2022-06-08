@@ -25,7 +25,7 @@ const search = useLocation();
         mojoauth.signInWithStateID(params.state_id).then((payload) => {
             
             localStorage.setItem('React-AccessToken', payload.oauth.access_token)
-            localStorage.setItem('React-Identifier', payload.user.identifier)
+            localStorage.setItem('React-Identifier', payload.user.email)
 navigate('/dashboard')
         });
     }else if(!localStorage.getItem('React-AccessToken')){

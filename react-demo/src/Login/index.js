@@ -20,7 +20,7 @@ const Login = () => {
             mojoauth.signIn().then(payload=>{ 
                 setOpen(false); 
                 localStorage.setItem('React-AccessToken', payload.oauth.access_token)
-                localStorage.setItem('React-Identifier', payload.user.identifier)
+                localStorage.setItem('React-Identifier', payload.user.email)
                navigate('/dashboard')
             })
         }
