@@ -297,7 +297,7 @@ const Login = () => {
                             <>
                                 
                                 <h1 className='title'>OTP Verification</h1>
-                                    <h4 className="subtitle">{`Enter the OTP sent on ${email}`}</h4>
+                                    <h4 className="subtitle">{`Enter the OTP sent at ${email}`}</h4>
                                     
                                     <Form>
                                         
@@ -370,7 +370,7 @@ const Login = () => {
             }
         </div>
 
-        {verifyToken?<div> <h4>Token :</h4><p>{localStorage.getItem("React-AccessToken")}</p></div>:null}
+        {verifyToken?<div> <h3>Token :</h3><p>{localStorage.getItem("React-AccessToken")}</p></div>:null}
         
        
             </div>

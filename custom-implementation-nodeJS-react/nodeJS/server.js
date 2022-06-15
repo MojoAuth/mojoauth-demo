@@ -63,7 +63,7 @@ app.use(function (req, res, next) {
     
     }else{
       res.status(200)
-      res.json({"error":`You can only login using the domain @${config.whitelisted_domain}`})
+      res.json({ "error": `This email domain is not allowed for login.` })
     }
     
   })
