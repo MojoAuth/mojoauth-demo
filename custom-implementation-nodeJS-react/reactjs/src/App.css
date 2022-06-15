@@ -116,3 +116,9 @@ code {
 .disabled{
   color: gray;
 }
+
+.token{
+  width: 1000px;
+  overflow: hidden;
+  margin: 0 auto;
+}

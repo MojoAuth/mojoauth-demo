@@ -370,7 +370,7 @@ const Login = () => {
             }
         </div>
 
-        {verifyToken?<div> <h3>Token :</h3><p>{localStorage.getItem("React-AccessToken")}</p></div>:null}
+        {verifyToken?<div> <h3>Token :</h3><p className="token">{localStorage.getItem("React-AccessToken")}</p></div>:null}
         
        
             </div>
