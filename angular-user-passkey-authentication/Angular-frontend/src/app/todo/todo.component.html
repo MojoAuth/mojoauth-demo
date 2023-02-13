@@ -1,0 +1,57 @@
+<!-- ./src/app/todo/todo.component.html -->
+<main>
+  <header class="todo-header">
+    <div class="wrapper">
+      <h1 class="font-bold text-2xl">My todo list</h1>
+    </div>
+  </header>
+  <section class="todo-section site-section">
+    <div class="wrapper">
+      <form (submit)="addTodo($event)" class="todo-form">
+        <div class="form-group">
+          <input
+            value="{{ todo }}"
+            (change)="updateBody($event)"
+            class="input"
+            type="text"
+            placeholder="Add a new todo"
+          />
+          <button class="cta shrink !grow-0" type="submit">Add</button>
+        </div>
+      </form>
+      <ul class="todo-list">
+        <li class="todo-item" *ngFor="let todo of todos">
+          <div class="todo-item__content">
+            <input
+              id="{{ todo.id }}"
+              value=" {{ todo.id }} "
+              [checked]="todo.completed"
+              (change)="(updateCompleted)"
+              class="input"
+              type="checkbox"
+            />
+            <label for=" {{ todo.id }} ">{{ todo.todo }}</label>
+          </div>
+          <button
+            (click)="deleteTodo(todo.id!)"
+            class="todo-item__delete cta"
+            type="button"
+          >
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z"
+                fill="currentColor"
+              />
+            </svg>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </section>
+</main>

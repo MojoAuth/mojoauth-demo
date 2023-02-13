@@ -1,0 +1,28 @@
+<!-- ./src/app/register/register.component.html -->
+<section class="site-section">
+  <div class="wrapper">
+    <header class="my-6">
+      <h1 class="font-bold text-4xl">Register</h1>
+    </header>
+    <form (submit)="register($event)" class="register-form flex flex-col gap-4">
+      <div class="form-control">
+        <label for="username">Username</label>
+        <input
+          value="{{ username }}"
+          (change)="updateUsername($event)"
+          type="text"
+          type="username"
+          name="username"
+          class="input"
+          required
+        />
+      </div>
+      <div class="action-cont">
+        <button class="cta" type="submit">
+          {{ isLoading ? "Loading..." : "Register" }}
+        </button>
+      </div>
+      <p>Or <a routerLink="/login" class="link">Login</a></p>
+    </form>
+  </div>
+</section>

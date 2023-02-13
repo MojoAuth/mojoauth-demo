@@ -1,0 +1,34 @@
+<!-- ./src/app/app.component.html -->
+<header class="site-header">
+  <div class="wrapper">
+    <a routerLink="/">
+      <figure class="site-logo">
+        <span>Todo</span>
+      </figure>
+    </a>
+    <nav class="site-nav">
+      <div class="wrapper">
+        <ul class="links">
+          <li class="link">
+            <a routerLink="/todo">Todo</a>
+          </li>
+          <li *ngIf="!user.id" class="link">
+            <a routerLink="/register">Register</a>
+          </li>
+          <li *ngIf="!user.id" class="link">
+            <a routerLink="/login">Login</a>
+          </li>
+          <li *ngIf="user.id" class="link">
+            <span>
+              {{ user.name }}
+            </span>
+          </li>
+          <li *ngIf="user.id" class="link">
+            <button class="cta" (click)="logOut()">Logout</button>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+</header>
+<router-outlet></router-outlet>

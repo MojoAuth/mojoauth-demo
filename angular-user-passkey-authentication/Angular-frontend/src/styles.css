@@ -1,0 +1,76 @@
+/* You can add global styles to this file, and also import other style files */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.cta {
+  @apply bg-slate-800 border border-slate-900 text-slate-50 font-medium py-1.5 px-3 rounded-md;
+}
+
+.link {
+  @apply underline;
+}
+
+.form-control {
+  @apply flex flex-col gap-2;
+}
+
+.input {
+  @apply p-3 border border-gray-300 rounded-md;
+}
+
+.input[type="checkbox"] {
+  @apply bg-gray-100;
+}
+
+.site-logo {
+  @apply text-lg font-bold;
+}
+
+.site-nav .links {
+  @apply flex gap-8 items-center;
+}
+
+.site-header {
+  @apply sticky top-0 p-4 z-10;
+}
+
+.site-header > .wrapper {
+  @apply flex gap-8 justify-between items-center  bg-slate-800 text-slate-50 p-4 px-6 rounded-lg;
+}
+
+
+.site-section,
+.todo-header {
+  @apply p-4;
+}
+
+.site-section > .wrapper,
+.todo-header > .wrapper {
+  @apply max-w-4xl mx-auto;
+}
+
+.form-group {
+  @apply flex gap-4;
+}
+
+.form-group > * {
+  @apply grow;
+}
+
+.todo-form {
+  @apply p-4 bg-slate-50 border border-slate-200 rounded-lg;
+}
+
+.todo-list {
+  @apply flex flex-col gap-4 my-6;
+}
+
+.todo-item {
+  @apply flex gap-4 items-center justify-between p-3 bg-slate-100 border border-slate-200 rounded-xl;
+}
+
+.todo-item__content {
+  @apply flex gap-4;
+}
