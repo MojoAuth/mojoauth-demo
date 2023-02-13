@@ -112,6 +112,68 @@ app.use(function (req, res, next) {
     });
   })
 
+  //Send Phone OTP
+  app.post('/phoneotp', function(req,res,next){
+
+      let phone = req.body.phone;
+      // let iso_code = req.body.iso_code;
+      let query = req.query;
+      ma.mojoAPI.signinWithPhoneOTP(phone, query).then((response)=>{
+
+        res.status(200)
+        res.json(response)
+      }).catch(function (error) {
+        res.status(404).json(error);
+      });
+    
+  })
+
+
+  //Verify Phone OTP
+  app.post('/phoneotp/verify', function(req,res,next){
+
+    let otp = req.body.otp;
+    let state_id = req.body.state_id;
+    ma.mojoAPI.verifyPhoneOTP(otp,state_id).then((response)=>{
+    if(response.authenticated){
+      
+      var jwtToken = response.oauth.access_token;
+      ma.mojoAPI.verifyToken(jwtToken).then(function (response) {
+    
+            res.status(200)
+            res.json(response)
+          }).catch(function (error) {
+            res.status(404).json(error);
+          });
+      
+    }
+    else {
+      res.status(200)
+      res.json(response)
+    }
+    
+  }).catch((error)=> {
+    res.status(404).json(error);
+  });
+})
+
+  //Resend Phone OTP
+  app.post('/phoneotp/resend', function(req,res,next){
+
+
+    let state_id = req.body.state_id;
+    let query = req.query;
+    ma.mojoAPI.resendPhoneOTP(state_id,query).then((response)=>{
+      
+        res.status(200)
+        res.json(response)
+      
+    }).catch(function (error) {
+      res.status(404).json(error);
+    });
+  })
+
+
   //Verify Token
   // app.post('/token/verify', function(req,res,next){
   //   var jwtToken = req.body.token;

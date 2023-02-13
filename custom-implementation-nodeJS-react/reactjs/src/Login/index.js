@@ -78,6 +78,8 @@ import 'react-toastify/dist/ReactToastify.css'
 const Login = () => {
 
     const [ email,setEmail ] = React.useState( "" )
+    const [ phone,setPhone ] = React.useState( "" )
+
     const [stateID, setStateID] = React.useState("")
     const [ OTP,setOTP ] = React.useState( "" )
     const [ loading,setLoading ] = React.useState( false )
@@ -90,8 +92,11 @@ const Login = () => {
     const navigate = useNavigate()
 
     const emailOTPURL = `${ config.api_endpoint }/emailotp`
+    const phoneOTPURL = `${ config.api_endpoint }/phoneotp`
     const emailOTPVerifyURL = `${ config.api_endpoint}/emailotp/verify`
-    const resendOTPURL = `${ config.api_endpoint }/emailotp/resend`
+    const phoneOTPVerifyURL = `${ config.api_endpoint}/phoneotp/verify`
+    const resendEmailOTPURL = `${ config.api_endpoint }/emailotp/resend`
+    const resendPhoneOTPURL = `${ config.api_endpoint }/phoneotp/resend`
     // const tokenVerifyURL = `${ config.api_endpoint }/token/verify`
 
 
@@ -137,11 +142,87 @@ const Login = () => {
             })
     }
 
+    const handlePhoneOTPLogin = () => {
+        
+        setLoading(true)
+        axios.post(
+            phoneOTPURL,
+            {
+                phone: phone
+            },
+            {
+                params: {
+                    language: config.language,
+                },
+                headers: {
+                    'X-API-Key': config.api_key,
+                },
+            } ).then( response => {
+                console.log(response)
+                if ( response.data.state_id ) {
+                    setVerify( true )
+                    setLoading(false)
+                    setStateID(response.data.state_id)
+                    console.log( response.data.state_id )
+                    toast.success("OTP sent successfully!")
+                }
+                else if(response.data.error){
+                    console.log(response.data.error)
+
+                    toast.error(response.data.error)
+                    setLoading(false)
+                }
+            } ).catch((error)=>{
+                toast.error(error.response.data)
+                console.log(error.response.data)
+                setLoading(false)
+            })
+    }
     const handleOTPVerifyLogin = (OTP)=>{
 
         setLoading(true)
         axios.post(
             emailOTPVerifyURL,
+            {
+                state_id: stateID,
+                otp: OTP,
+            },
+            {
+                headers: {
+                    'X-API-Key': config.api_key,
+                },
+            } ).then( response => {
+                console.log(response.data)
+                if(response.data.isValid){
+                    
+                    localStorage.setItem("React-AccessToken", response.data.access_token)
+                    
+                    
+                    toast.success('You have been logged in successfully!')
+                    setVerifyToken(true)
+                    
+                    setLoading(false)
+                }else if(response.data.code===913){
+                    setOTPError(true)
+                    setTimeout(() =>  {setOTPError(false)},3000)
+                    
+                    setLoading(false)
+                    toast.error(response.data.message)
+                }
+               
+               
+            } ).catch((error)=>{
+                toast.error(error.response.data)
+                console.log(error.response.data)
+                setLoading(false)
+            })
+    }
+
+    const handlePhoneOTPVerifyLogin = (OTP)=>{
+
+        setLoading(true)
+        axios.post(
+            phoneOTPVerifyURL,
             {
                 state_id: stateID,
                 otp: OTP,
@@ -201,7 +282,7 @@ const Login = () => {
 		}, 1000);
         setLoading(true)
         axios.post(
-            resendOTPURL,
+            resendEmailOTPURL,
             {
                 state_id: stateID,
             },
@@ -232,6 +313,59 @@ const Login = () => {
 
     }
 
+    const handleResendPhoneOTP = () => {
+
+        setResendTimer(true)
+		let timerInterval = null;
+		setTimeLeft(30)
+        let timePassed = 0;
+        timerInterval = setInterval(() => {
+			
+			// The amount of time passed increments by one
+			setTimeLeft((timeLeft)=>timeLeft-1)
+            timePassed=timePassed+1;
+			// The time left label is updated
+			if (timePassed<30)
+			{
+                console.log(timePassed)
+			}
+			else if(timePassed>30){
+                console.log("<0")
+				clearInterval(timerInterval)
+                setResendTimer(false)
+			}
+		}, 1000);
+        setLoading(true)
+        axios.post(
+            resendPhoneOTPURL,
+            {
+                state_id: stateID,
+            },
+            {
+                params: {
+                    language: config.language,
+                },
+                headers: {
+                    'X-API-Key': config.api_key,
+                },
+            } ).then( response => {
+                if(response.data.state_id){
+                    
+                    toast.success('OTP resent successfully!')
+                    setLoading(false)
+                }else {
+                    setLoading(false)
+                    toast.error(response.data.error)
+                }
+               
+               
+            } ).catch((error)=>{
+                toast.error(error.response.data)
+                console.log(error.response.data)
+                setLoading(false)
+            })
+
+    }
 
    const formatTimeLeft = (time) => {
         // The largest round integer less than or equal to the result of time divided being by 60.
@@ -265,16 +399,16 @@ const Login = () => {
                                 type='text'
                                 placeholder='Enter Your Email Address'
                                 name='email'
-                                value={ email }
+                                value={ phone }
                                 onChange={ ( e ) => {
-                                    setEmail( e.target.value );
+                                    setPhone( e.target.value );
                                 } }
                             />
                             <Button
                                 className='login'
                                 loading={ loading }
                                 primary
-                                onClick={ handleEmailOTPLogin }
+                                onClick={ handlePhoneOTPLogin }
                             >
                                 { ' ' }
                                 Sign in without password{ ' ' }
@@ -316,7 +450,7 @@ const Login = () => {
                                             className='login'
                                             loading={ loading }
                                             primary
-                                            onClick={ ()=>{handleOTPVerifyLogin(OTP)} }
+                                            onClick={ ()=>{handlePhoneOTPVerifyLogin(OTP)} }
                                         >
                                             { ' ' }
                                             Submit{ ' ' }
@@ -331,7 +465,7 @@ const Login = () => {
                                                 <p>
                                                     Didn't receive OTP?
                                                 </p> {' '}
-                                                <p className="resend" onClick={handleResendOTP}>
+                                                <p className="resend" onClick={handleResendPhoneOTP}>
                                                    {' '} Resend
                                                 </p>
                                             </>
