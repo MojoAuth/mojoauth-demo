@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/css/font-awesome.min.css" rel="stylesheet">
+    <link href="assets/css/style.css" rel="stylesheet">
+
+    <title>Form</title>
+
+    <script charset="UTF-8" src="https://devmicrocenter.mojoauth.com/cdn/js/mojoauth.min.js"></script>
+</head>
+<body>
+<section class="_form_05">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="_form-05-box login-wrap">
+                    <div class="row">
+                        <div class="loader" style="display: none;">
+                            <img src="assets/images/loader.svg" alt="">
+                        </div>
+                        <div class="col-sm-5 _lk_nb">
+                            <div class="form-05-box-a login">
+                                <div class="_form_05_logo">
+                                    <h2>Welcome to MojoAuth</h2>
+                                    <p>Login using social media to get quick access</p>
+                                </div>
+                                <div class="_form_05_socialmedia">
+                                    <ol>
+                                        <li><a href="#"><i class="fa fa-facebook"></i></a>Sign With Facebook</li>
+                                        <li><a href="#"><i class="fa fa-twitter"></i></a>Sign With Twitter</li>
+                                        <li><a href="#"><i class="fa fa-google-plus"></i></a>Sign With Google</li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-7 _nb-pl">
+                            <div class="_mn_df">
+                                <div class="main-head">
+                                    <h2>MojoAuth Passkey Demo</h2>
+                                </div>
+
+                                <div id="login-options-ui">
+                                    <div class="form-group">
+                                        <input id="email" type="email" name="email" class="form-control" type="text"
+                                               placeholder="Email / Phone" required="" aria-required="true">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="_btn_04">
+                                            <a href="#" onclick="handleSigninWithMagicLink(event)">One Click Sign in</a>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="_btn_04" style="background-color: #091e16;">
+                                            <a href="#" onclick="handleSigninWithPasskey(event)">Sign in with a
+                                                Passkey</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="email-verification-pending-ui" style="display: none">
+                                    <h3>Check your mail</h3>
+                                    <p>A verification link has been sent to your email address: </p>
+                                    <p id="email-address"></p>
+                                </div>
+                                <div id="passkey-registration-prompt" style="display:none;">
+                                    <h3>Setup Passkey</h3>
+                                    <p>Trusted Device? Click the button below and follow browser instructions to login
+                                        next time using this device's fingerprint or face ID.</p>
+
+                                    <div class="form-group">
+                                        <div class="_btn_04">
+                                            <a href="#" onclick="handlePasskeyRegistration(event)">Continue</a>
+                                        </div>
+                                        <a class="skip-text" href="#">Skip</a>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+
+<script>
+    const mojoauth = new MojoAuth("f4c49f3a-2ef0-4e89-b044-19737095b34a")
+
+    let isPasskeyRegistered = false;
+
+    async function handleSigninWithMagicLink(e) {
+        e.preventDefault();
+
+        const email = document.getElementById("email").value;
+
+        if (email) {
+            const passkeyStatus = await mojoauth.getPasskeyStatus(email);
+            if (passkeyStatus && passkeyStatus.passkey_registered) {
+                isPasskeyRegistered = true
+                mojoauth.loginWithPasskey(email).then((response) => {
+                    persistSessionValues(response);
+                    window.location.href = "/profile.html";
+                }).catch(async (err) => {
+                    console.log(err);
+                    await sendMagicLink(email);
+                })
+            } else {
+                await sendMagicLink(email);
+            }
+        }
+    }
+
+    async function sendMagicLink(email) {
+        const magicLinkSendResponse = await mojoauth.sendMagicLink(email);
+        console.log(magicLinkSendResponse);
+        if (magicLinkSendResponse.state_id) {
+            document.getElementById("login-options-ui").style.display = "none";
+            document.getElementById("email-verification-pending-ui").style.display = "block";
+            document.getElementById("email-address").innerText = email;
+
+            // Check Auth Status via Ping API
+            const response = await mojoauth.checkAuthStatus(magicLinkSendResponse.state_id);
+            console.log(response);
+            if (response.authenticated) {
+                persistSessionValues(response);
+
+                if (!isPasskeyRegistered) {
+                    toggleVerificationPendingUI(false);
+                    showPasskeyRegistrationUI();
+                } else {
+                    window.location.href = "/profile.html";
+                }
+            }
+        }
+    }
+
+    function persistSessionValues(response) {
+        sessionStorage.setItem("access_token", response.oauth.access_token);
+        sessionStorage.setItem("identifier", response.user.identifier);
+        sessionStorage.setItem("email", response.user.email);
+    }
+
+    async function handleSigninWithPasskey(e) {
+        e.preventDefault();
+
+        const loginPasskeyResp = await mojoauth.loginWithPasskey();
+        if (loginPasskeyResp && loginPasskeyResp.authenticated) {
+            persistSessionValues(loginPasskeyResp);
+            window.location.href = "/profile.html";
+        }
+    }
+
+    async function handlePasskeyRegistration(e) {
+        e.preventDefault();
+
+        const accessToken = sessionStorage.getItem("access_token");
+        const identifier = sessionStorage.getItem("identifier");
+
+        const registrationResp = await mojoauth.registerPasskey(identifier, accessToken);
+        if (registrationResp && registrationResp.authenticated) {
+            window.location.href = "/profile.html";
+        }
+    }
+
+    showPasskeyRegistrationUI = () => document.getElementById("passkey-registration-prompt").style.display = "block";
+
+    toggleVerificationPendingUI = (show) => document.getElementById("email-verification-pending-ui").style.display = show ? "block" : "none"
+</script>
+</html>

@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/css/font-awesome.min.css" rel="stylesheet">
+    <link href="assets/css/style.css" rel="stylesheet">
+
+    <title>Form</title>
+
+    <script charset="UTF-8" src="https://devmicrocenter.mojoauth.com/cdn/js/mojoauth.min.js"></script>
+</head>
+<body>
+<section class="_form_05">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="_form-05-box">
+                        <div>
+                            <div class="form-05-box-a">
+                                <div class="_form_05_logo">
+                                    <h2 style="color: #6efc6e;">Authentication Successful</h2>
+                                    <p id="tok" style="word-wrap: break-word;">
+                                        eyJhbGciOiJSUzI1NiIsImtpZCI6Il9XUHB6bUdWIiwidHlwIjoiSldUIn0.eyJpZGVudGlmaWVyIjoibmV3dGtla2RAbWFpbDcuaW8iLCJ1c2VyX2lkIjoiNjVhOGM4MWI1ODgxODY4ODliMWM1OWUzIiwiYXV0aF90eXBlIjoibWFnaWNsaW5rIiwidG9rZW5fdHlwZSI6ImFjY2Vzc190b2tlbiIsImF1ZCI6IjQxZjA1ZDM4LTdkNWYtNGE4ZC05NGVlLTQ1Mzk0NTJhZTE2NyIsImV4cCI6MTcwNTgxOTI5MSwianRpIjoiMDRkZDI4ZjQtOWU3MS00ZTJjLTk2YjYtNzUyOGZkMTcwNzczIiwiaWF0IjoxNzA1NTYwMDkxLCJpc3MiOiJodHRwczovL3d3dy5tb2pvYXV0aC5jb20iLCJuYmYiOjE3MDU1NjAwODYsInN1YiI6IjY1YThjODFiNTg4MTg2ODg5YjFjNTllMyJ9.54RMStuAvf5VAg0GMuuGR5k3cwDAR_sbOlqcrVe6TFxaljDiEfVxg0AWpL2_X1jyirLHg3haf9IkcDDiA1TYlkwuaShQJm4T7ViHibqnsm9L1ibW5rHl5nrIWN-aNPbk5a9KFvRKLEjNTYFAjXvbRwCBBEVFyTs0iJVaiXEnvMUUQtdEk-58U3GIt8ZcNyo8WPxaG2jHJs1m2rc2cXFtpvPuiba4sKTAh73micq1OpQElXAiqo6IkbAd5mIpA_ko_bCCAHbWp790rMWkeXuhBPaLN8UADFz3w0JsgnaEbXnItgFxyYx2cc601WNbY3G5y5AYRfMxCZzgytklc-399g</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="_form_05_logo">
+                                <button class="_btn_04" onclick="addPassKey()">
+                                    Create a passkey
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="table">
+                        <table id="tab">
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Last Used At</th>
+                                <th>Action</th>
+                            </tr>
+                        </table>
+                        </div>
+                        <!-- <div class="col-sm-7 _nb-pl">
+                          <div class="_mn_df">
+                            <div class="main-head">
+                              <h2>Welcome to MojoAuth</h2>
+                            </div>
+
+                            <div class="form-group">
+                              <input type="email" name="email" class="form-control" type="text" placeholder="Email / Phone" required="" aria-required="true">
+                            </div>
+
+
+
+                            <div class="form-group">
+                              <div class="_btn_04">
+                                <a href="#">One Click Sign in</a>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <div class="_btn_04" style="background-color: #091e16;">
+                                <a href="#">Sign in with a Passkey</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div> -->
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>
+
+<script>
+    const accessToken = sessionStorage.getItem("access_token");
+    const identifier = sessionStorage.getItem("identifier");
+    console.log(accessToken)
+    // document.getElementById("tok").innerHTML = accessToken;
+    document.getElementById("tok").innerHTML = identifier;
+
+    const mojoauth = new MojoAuth("f4c49f3a-2ef0-4e89-b044-19737095b34a");
+
+    mojoauth.getPasskeyCredentials(accessToken).then(response => {
+        console.log(response);
+        if (response.length > 0) {
+            for (let i = 0; i < response.length; i++) {
+                const element = response[i];
+
+                const tr = document.createElement('tr');
+                const td = document.createElement('td');
+                td.appendChild(document.createTextNode(element.id.substr(element.id.length - 6)))
+                tr.appendChild(td);
+
+                const td2 = document.createElement('td');
+                const name = element.name ? element.name : `passkey-${element.public_key.substr(element.public_key.length - 6)}`;
+                td2.appendChild(document.createTextNode(name));
+                tr.appendChild(td2);
+
+                const td3 = document.createElement('td');
+                td3.appendChild(document.createTextNode(element.last_used_at))
+                tr.appendChild(td3);
+
+                const td4 = document.createElement('td');
+                const renameBtn = document.createElement("BUTTON");
+                renameBtn.appendChild(document.createTextNode("Rename"));
+                renameBtn.setAttribute("onclick", "handleRenameCred('" + element.id + "');");
+                renameBtn.setAttribute("class", "rename");
+
+                const deleteBtn = document.createElement("BUTTON");
+                deleteBtn.appendChild(document.createTextNode("Delete"));
+                deleteBtn.setAttribute("onclick", "handleDeleteCred('" + element.id + "');");
+                deleteBtn.setAttribute("class", "delete");
+
+                td4.appendChild(renameBtn);
+                td4.appendChild(deleteBtn);
+                tr.appendChild(td4);
+
+                document.getElementById("tab").appendChild(tr);
+            }
+        }
+    });
+
+    function addPassKey() {
+        mojoauth.registerPasskey(identifier, accessToken).then(response => {
+            console.log(response);
+        });
+    }
+
+    function handleRenameCred(id) {
+        const resp = window.prompt("Please enter name:")
+        if (resp) {
+            mojoauth.updatePasskeyCredential(id, accessToken, {name: resp}).then(response => {
+                console.log(response);
+                window.location.reload();
+            });
+        }
+    }
+
+    function handleDeleteCred(id) {
+        if (confirm("Confirm Deletion!") === true) {
+            mojoauth.deletePasskeyCredential(id, accessToken).then(response => {
+                window.alert(response);
+                window.location.reload();
+            });
+        }
+    }
+</script>
