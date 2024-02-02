@@ -107,7 +107,7 @@
                 isPasskeyRegistered = true
                 mojoauth.loginWithPasskey(email).then((response) => {
                     persistSessionValues(response);
-                    window.location.href = "/profile.html";
+                    window.location.href = "/custom-passkey-implementation/profile.html";
                 }).catch(async (err) => {
                     console.log(err);
                     await sendMagicLink(email);
@@ -136,7 +136,7 @@
                     toggleVerificationPendingUI(false);
                     showPasskeyRegistrationUI();
                 } else {
-                    window.location.href = "/profile.html";
+                    window.location.href = "/custom-passkey-implementation/profile.html";
                 }
             }
         }
@@ -154,7 +154,7 @@
         const loginPasskeyResp = await mojoauth.loginWithPasskey();
         if (loginPasskeyResp && loginPasskeyResp.authenticated) {
             persistSessionValues(loginPasskeyResp);
-            window.location.href = "/profile.html";
+            window.location.href = "/custom-passkey-implementation/profile.html";
         }
     }
 
@@ -166,7 +166,7 @@
 
         const registrationResp = await mojoauth.registerPasskey(identifier, accessToken);
         if (registrationResp && registrationResp.authenticated) {
-            window.location.href = "/profile.html";
+            window.location.href = "/custom-passkey-implementation/profile.html";
         }
     }
 
