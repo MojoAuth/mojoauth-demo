@@ -27,11 +27,15 @@ To start Integrating MojoAuth in your web app, add MojoAuth javascript SDK in th
 <script  charset="UTF-8"  src="https://cdn.mojoauth.com/js/mojoauth.min.js">
 ```
 
+> Update MojoAuth JS SDK URL in Demo file `index.html` and `profile.html`
+
 Create a MojoAuth instance with your API key if you use API implementation and haven’t used our JS framework before.
 
 ```
 const mojoauth = new MojoAuth("<MojoAuth API Key>")
 ```
+
+> Update MojoAuth API Key in Demo file `index.html` and `profile.html`
 
 ## JavaScript API Reference
 

@@ -12,7 +12,7 @@
 
     <title>Form</title>
 
-    <script charset="UTF-8" src="https://devmicrocenter.mojoauth.com/cdn/js/mojoauth.min.js"></script>
+    <script charset="UTF-8" src="<Add MojoAuth JS SDK>"></script>
 </head>
 <body>
 <section class="_form_05">
@@ -47,31 +47,6 @@
                             </tr>
                         </table>
                         </div>
-                        <!-- <div class="col-sm-7 _nb-pl">
-                          <div class="_mn_df">
-                            <div class="main-head">
-                              <h2>Welcome to MojoAuth</h2>
-                            </div>
-
-                            <div class="form-group">
-                              <input type="email" name="email" class="form-control" type="text" placeholder="Email / Phone" required="" aria-required="true">
-                            </div>
-
-
-
-                            <div class="form-group">
-                              <div class="_btn_04">
-                                <a href="#">One Click Sign in</a>
-                              </div>
-                            </div>
-                            <div class="form-group">
-                              <div class="_btn_04" style="background-color: #091e16;">
-                                <a href="#">Sign in with a Passkey</a>
-                              </div>
-                            </div>
-                          </div>
-                        </div> -->
-                    
                 </div>
             </div>
         </div>
@@ -87,7 +62,7 @@
     // document.getElementById("tok").innerHTML = accessToken;
     document.getElementById("tok").innerHTML = identifier;
 
-    const mojoauth = new MojoAuth("f4c49f3a-2ef0-4e89-b044-19737095b34a");
+    const mojoauth = new MojoAuth("<MojoAuth API Key>");
 
     mojoauth.getPasskeyCredentials(accessToken).then(response => {
         console.log(response);
